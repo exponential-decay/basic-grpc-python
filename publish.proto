@@ -1,0 +1,29 @@
+// Orcfax publisher GRPC proto.
+syntax = "proto3";
+
+// A datum is sent from the client to the server and is likely some
+// sort of json encoded as a string.
+message Datum {
+    string datum = 1;
+}
+
+// Confirmation is sent from the server to the client and enables some
+// level of success to be measured.
+message Confirmation {
+    bool accepted = 1;
+    string value = 2;
+}
+
+/*Publish provides mechanisms for talking to various Orcfax publishing
+components.
+*/
+service Publish {
+    /* PublishDatum receives a Datum from a remote host and returns a
+    confirmation.
+
+    The confirmation is the value of the datum once parsed. This
+    provides a mechanism to understand if what was received is what
+    was sent. More secure confirmations are possible.
+    */
+    rpc PublishDatum(Datum) returns (Confirmation) {}
+}
